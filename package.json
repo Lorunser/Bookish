@@ -1,0 +1,32 @@
+{
+  "name": "bookish",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build && node ./dist/app.js",
+    "build": "npm run build-ts && npm run build-babel",
+    "build-ts": "tsc",
+    "build-babel": "babel ./built --out-dir dist/ --copy-files"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lorunser/Bookish.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lorunser/Bookish/issues"
+  },
+  "homepage": "https://github.com/Lorunser/Bookish#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
