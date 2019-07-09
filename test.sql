@@ -1,4 +1,4 @@
 -- Database: bookish
 
 SELECT *
-FROM Author;
+FROM Books;
