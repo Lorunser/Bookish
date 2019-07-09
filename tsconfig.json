@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "outDir": "./built",
+        "allowSyntheticDefaultImports": true,
         "target": "es6"
     },
     "include": [
