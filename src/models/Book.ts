@@ -1,15 +1,13 @@
+import BaseModel from './BaseModel';
 
-export default class Book{
+export default class Book extends BaseModel{
     
     //fields
-    bookId: Number;
-    ISBN: String;
+    bookid: Number;
+    isbn: String;
     title: String;
 
-    constructor(bookFromDb){
-        this.bookId = bookFromDb.bookId;
-        this.ISBN = bookFromDb.ISBN;
-        this.title = bookFromDb.title;
+    constructor(jsonFromDb){
+        super(jsonFromDb);
     }
-
 }
