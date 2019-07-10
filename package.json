@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run build && node ./dist/app.js",
+    "start": "npm run build && node ./dist/app2.js",
     "build": "npm run build-ts && npm run build-babel",
     "build-ts": "tsc",
     "build-babel": "babel ./built --out-dir dist/ --copy-files"
@@ -34,6 +34,7 @@
     "jsonwebtoken": "^8.5.1",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "pg-promise": "^8.7.3"
   }
 }

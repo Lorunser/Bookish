@@ -1,13 +1,13 @@
 import {JwtStrategy, ExtractJwt} from 'passport-jwt';
 import passport from 'passport';
+import DbConnection from '../db/DbConnection';
 let opts: Object = {
     jwtFromRequest : ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey : 'secret',
-    issuer : 'accounts.examplesoft.com',
-    audience : 'yoursite.net'};
+    secretOrKey : 'secret'};
 
+let dbc = new DbConnection("");
 passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-    User.findOne({id: jwt_payload.sub}, function(err, user) {
+     dbc.db.findOne({'username': jwt_payload.userid, 'password': jwt_payload.password}, function(err, user) {
         if (err) {
             return done(err, false);
         }
