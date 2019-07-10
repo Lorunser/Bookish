@@ -1,6 +1,6 @@
 import express from 'express';
 import DbConnection from './db/DbConnection';
-import Book from './models/Book';
+import BookController from './controllers/BookController';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 
@@ -10,10 +10,8 @@ const port = 3000;
 const secret = '12345';
 
 //api
-app.get('/books', async (request, response) => {
-    let bookArray = await Book.getAllBooksAsync(dbConnection);
-    response.json(bookArray);
-});
+const bookController = new BookController(dbConnection);
+app.use('/books', bookController.router);
 
 // app.get('/login', async (request, response) => {
 //     let webToken = jwt.sign(request.query, secret);
