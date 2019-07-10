@@ -9,7 +9,8 @@ CREATE TABLE Books (
 
 CREATE TABLE LibraryUsers (
 	UserId SERIAL PRIMARY KEY,
-	UserName VARCHAR NOT NULL
+	UserName VARCHAR NOT NULL,
+	PassWord VARCHAR
 );
 
 CREATE TABLE Authors (
@@ -58,7 +59,7 @@ VALUES
 
 INSERT INTO LibraryUsers(UserName)
 VALUES
-('Josh Cudby'),
-('Lawrence Tray');
+('Josh Cudby', 'Josh'),
+('Lawrence Tray', 'Lawrence');
 
 
