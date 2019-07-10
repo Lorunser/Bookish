@@ -9,6 +9,9 @@ const app = express();
 const port = 3000;
 const secret = '12345';
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 //api
 const bookController = new BookController(dbConnection);
 app.use('/books', bookController.router);
@@ -18,8 +21,9 @@ app.use('/books', bookController.router);
     
 // });
 
-app.post('/login', passport.authenticate('local', { successRedirect: '/books',
-                                                    failureRedirect: '/login' }));
+app.post('/login', passport.authenticate('jwt'), function(req, res) {
+    res.send(req)
+});
 //serve frontend directory
 app.use(express.static('frontend'));
 
