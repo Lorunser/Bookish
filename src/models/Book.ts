@@ -18,7 +18,7 @@ export default class Book extends BaseModel{
             FROM Books;
         `;
 
-        let jsonDbArray = await dbc.asyncQuery(queryString);
+        let jsonDbArray = await dbc.asyncAll(queryString);
         let bookArray = jsonDbArray.map((jsonBook) => new Book(jsonBook));
 
         return bookArray;

@@ -1,4 +1,5 @@
 -- Database: bookish
 
 SELECT *
-FROM Books;
+FROM LibraryUsers
+WHERE Username = 'Lawrence Tray';

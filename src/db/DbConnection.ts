@@ -17,8 +17,13 @@ export default class DbConnection{
         //'SELECT * FROM Books;'
     }
 
-    async asyncQuery(sqlQuery: String): Promise<Array<Object>>{
+    async asyncAll(sqlQuery: String): Promise<Array<any>>{
         let result = await this.db.any(sqlQuery);
         return result;        
+    }
+
+    async asyncOneOrNone(sqlQuery: String): Promise<any>{
+        let result = await this.db.oneOrNone(sqlQuery);
+        return result;
     }
 }
