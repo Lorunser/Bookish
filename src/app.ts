@@ -1,10 +1,13 @@
 import express from 'express';
 import DbConnection from './db/DbConnection';
 import Book from './models/Book';
+import passport from 'passport';
+import jwt from 'jsonwebtoken';
 
 const dbConnection = new DbConnection("");
 const app = express();
 const port = 3000;
+const secret = '12345';
 
 //api
 app.get('/books', async (request, response) => {
@@ -12,6 +15,13 @@ app.get('/books', async (request, response) => {
     response.json(bookArray);
 });
 
+// app.get('/login', async (request, response) => {
+//     let webToken = jwt.sign(request.query, secret);
+    
+// });
+
+app.post('/login', passport.authenticate('local', { successRedirect: '/books',
+                                                    failureRedirect: '/login' }));
 //serve frontend directory
 app.use(express.static('frontend'));
 
