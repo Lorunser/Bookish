@@ -17,7 +17,7 @@ export default class DbConnection{
         //'SELECT * FROM Books;'
     }
 
-    async executeQuery(sqlQuery: String): Promise<Array<Object>>{
+    async asyncQuery(sqlQuery: String): Promise<Array<Object>>{
         let result = await this.db.any(sqlQuery);
         return result;        
     }

@@ -1,13 +1,14 @@
 import express from 'express';
 import DbConnection from './db/DbConnection';
-const db = new DbConnection("");
+import Book from './models/Book';
+
+const dbConnection = new DbConnection("");
 const app = express();
 const port = 3000;
 
 //api
 app.get('/books', async (request, response) => {
-    let query = 'SELECT * FROM Books;';
-    let bookArray = await db.executeQuery(query);
+    let bookArray = await Book.getAllBooksAsync(dbConnection);
     response.json(bookArray);
 });
 
