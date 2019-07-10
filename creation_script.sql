@@ -1,11 +1,10 @@
 -- Database: bookish
-DROP TABLE Books, LibraryUsers, Authors, Loans, BookAuthors CASCADE;
+DROP TABLE Books, LibraryUsers, Authors, Loans, BookAuthors, Copies CASCADE;
 
 CREATE TABLE Books (
 	BookId SERIAL PRIMARY KEY,
 	ISBN VARCHAR UNIQUE,
-	Title VARCHAR NOT NULL,
-	NumCopies INT DEFAULT 1
+	Title VARCHAR NOT NULL
 );
 
 CREATE TABLE LibraryUsers (
@@ -51,11 +50,11 @@ VALUES
 ('George Orwell'), 
 ('Aldous Huxley');
 
-INSERT INTO Books(ISBN, Title, NumCopies)
+INSERT INTO Books(ISBN, Title)
 VALUES 
-('9781471331435','1984', 3),
-('9782013224635', 'StormBreaker', 7),
-('9782435647654', 'Brave New World', 2);
+('9781471331435','1984'),
+('9782013224635', 'StormBreaker'),
+('9782435647654', 'Brave New World');
 
 INSERT INTO LibraryUsers(UserName)
 VALUES

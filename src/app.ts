@@ -1,10 +1,14 @@
 import express from 'express';
+import DbConnection from './db/DbConnection';
+const db = new DbConnection("");
 const app = express();
 const port = 3000;
 
 //api
 app.get('/books', async (request, response) => {
-    response.json("banter: 'hello'");
+    let query = 'SELECT * FROM Books;';
+    let bookArray = await db.executeQuery(query);
+    response.json(bookArray);
 });
 
 //serve frontend directory
