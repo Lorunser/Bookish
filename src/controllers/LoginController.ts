@@ -1,7 +1,5 @@
-import {JwtStrategy, ExtractJwt} from 'passport-jwt';
-import passport from 'passport';
 import DbConnection from '../db/DbConnection';
-import LibraryUser from '../models/LibraryUser';
+import { Strategy } from 'passport-local';
 
 
 export default class LoginController{
@@ -9,59 +7,40 @@ export default class LoginController{
 
     constructor(dbc: DbConnection, passport){
         this.dbc = dbc;
-
-        let opts: Object = {
-            jwtFromRequest : ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey : 'secret'
-        };
-
-        passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-            let username = jwt_payload.username;
-            let password = jwt_payload.password;
-
-            //select LibraryUser with matching username
-            let queryString = `
-                SELECT *
-                FROM LibraryUsers
-                WHERE UserName = '${username}';  
-            `;
-
-            return this.dbc.asyncOneOrNone(queryString).then((libraryUser) => {
-                if(libraryUser === null){
-                    return done(new Error(`Username (${username}) incorrect`), false); // no such account
-                }
-                else if(libraryUser.password === password){
-                    return done(null, libraryUser); // correct password
-                }
-                else{
-                    return done(new Error(`Password (${password}) incorrect`), false);
-                }
-            });            
+        
+        passport.use(new Strategy( function(username, password, done){
+            return verify(username, password, done, dbc);
         }));
 
+        passport.serializeUser(function(user, done){
+            done(null, user);
+        });
+          
+        passport.deserializeUser(function(user, done){
+            done(null, user);
+        });
+    }
+}
+
+async function verify(username, password, done, dbc){
+    let queryString = `
+        SELECT *
+        FROM LibraryUsers
+        WHERE UserName = '${username}';  
+    `;
+
+    let user = await dbc.asyncOneOrNone(queryString);
+
+    if(user === null){
+        return done(new Error(`Username (${username}) incorrect`), false); // no such account
     }
 
-    async verify(jwt_payload: LibraryUser, done): Promise<any>{
-        let username = jwt_payload.username;
-        let password = jwt_payload.password;
+    else if(user.password === password){
+        console.log("Successfully logged in " + username);
+        return done(null, user); // correct password
+    }
 
-        //select LibraryUser with matching username
-        let queryString = `
-            SELECT *
-            FROM LibraryUsers
-            WHERE UserName = '${username}';  
-        `;
-
-        let libraryUser: LibraryUser = await this.dbc.asyncOneOrNone(queryString);
-        
-        if(libraryUser === null){
-            return done(new Error(`Username (${username}) incorrect`), false); // no such account
-        }
-        else if(libraryUser.password === password){
-            return done(null, libraryUser); // correct password
-        }
-        else{
-            return done(new Error(`Password (${password}) incorrect`), false);
-        }
+    else{
+        return done(new Error(`Password (${password}) incorrect`), false);
     }
 }
