@@ -62,4 +62,9 @@ VALUES
 ('Josh Cudby', 'Josh'),
 ('Lawrence Tray', 'Lawrence');
 
+INSERT INTO BookAuthors(BookId, AuthorId)
+VALUES
+(1, 2),
+(1, 3);
+
 
