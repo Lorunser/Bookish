@@ -24,14 +24,14 @@ CREATE TABLE Copies (
 );
 
 CREATE TABLE Loans (
+	LoanId INT PRIMARY KEY, 
 	CopyId INT,
 	UserId INT,
 	DateIssued DATE,
 	DateDue DATE,
 	DateReturned DATE,
 	FOREIGN KEY (CopyId) REFERENCES Copies(CopyId),
-	FOREIGN KEY (UserId) REFERENCES LibraryUsers(UserId),
-	PRIMARY KEY (CopyId, UserId)
+	FOREIGN KEY (UserId) REFERENCES LibraryUsers(UserId)
 );
 
 CREATE TABLE BookAuthors (
