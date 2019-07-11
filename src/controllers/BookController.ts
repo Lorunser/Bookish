@@ -12,18 +12,10 @@ export default class BookController extends BaseController{
 
     async getById(request, response){
         let bookid = request.params.id;
-        console.log('GET /books/' + bookid);
-        
-        let queryString = `
-            SELECT *
-            FROM Books
-            WHERE bookid = ${bookid}; 
-        `;
 
-        let jsonBook = await this.dbc.asyncOneOrNone(queryString);
+        let jsonBook = await super.getByIdSupplied(bookid, "bookid");
         let book = new Book(jsonBook);
         await book.populateNavsAsync(this.dbc);
-        console.log(book);
 
         response.json(book);
     }

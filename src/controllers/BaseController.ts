@@ -1,17 +1,16 @@
 import DbConnection from "../db/DbConnection";
 import { Router } from "express";
-import BaseModel from "../models/BaseModel";
-
+import BaseModel from '../models/BaseModel';
 
 export default abstract class BaseController{
     dbc: DbConnection;
     router: Router;
-    model: BaseModel;
+    tableName: String;
 
-
-    constructor(dbc: DbConnection, model: BaseModel){
+    constructor(dbc: DbConnection, tableName: String){
         this.dbc = dbc;
         this.router = Router();
+        this.tableName = tableName;
 
         //map routes
         this.router.get('/', /*passport authentication */ this.getAll.bind(this));
@@ -31,21 +30,18 @@ export default abstract class BaseController{
     }
 
     async getById(request, response){
-        //throw new Error('Not implemented must be overriden');
+        throw new Error('Not implemented must be overriden');        
+    }
 
-        let id = request.params.id;
+    async getByIdSupplied(id: Number, idName: String){        
         
         let queryString = `
             SELECT *
             FROM ${this.tableName}
-            WHERE ${this.idName} = ${id}; 
+            WHERE ${idName} = ${id}; 
         `;
 
         let json = await this.dbc.asyncOneOrNone(queryString);
-        let model = new BaseModel(jsonBook);
-        await book.populateNavsAsync(this.dbc);
-        console.log(book);
-
-        response.json(book);
+        return json;
     }
 }

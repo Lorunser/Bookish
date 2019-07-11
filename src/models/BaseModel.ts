@@ -1,3 +1,5 @@
+import DbConnection from "../db/DbConnection";
+
 export default class BaseModel{    
     
     constructor(jsonFromDb){
@@ -7,7 +9,7 @@ export default class BaseModel{
         }
     }
 
-    async populateNavsAsync(){
+    async populateNavsAsync(dbc: DbConnection){
         throw new Error('Not implemented must be overriden')
     }
 }
