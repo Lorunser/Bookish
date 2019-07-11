@@ -5,8 +5,8 @@ import Author from "../models/Author";
 
 export default class AuthorController extends BaseController{
 
-    constructor(dbc: DbConnection){
-        super(dbc, "Authors");
+    constructor(dbc: DbConnection, passport: any){
+        super(dbc, "Authors", passport);
     }
 
     async getById(request, response){        

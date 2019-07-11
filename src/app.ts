@@ -19,22 +19,21 @@ const dbc = new DbConnection("");
 //login
 const loginController = new LoginController(dbc, passport);
 app.use('/login', loginController.router);
-console.log('using login')
 
 //books
 const bookController = new BookController(dbc, passport);
 app.use('/books', bookController.router);
 
 //authors
-const authorController = new AuthorController(dbc);
+const authorController = new AuthorController(dbc, passport);
 app.use('/authors', authorController.router);
 
 //users
-const userController = new UserController(dbc);
+const userController = new UserController(dbc, passport);
 app.use('/users', userController.router);
 
 //loans
-const loanController = new LoanController(dbc);
+const loanController = new LoanController(dbc, passport);
 app.use('/loans', loanController.router);
 
 //serve frontend directory
