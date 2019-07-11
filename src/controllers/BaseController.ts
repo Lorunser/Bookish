@@ -30,10 +30,10 @@ export default abstract class BaseController{
     }
 
     async getById(request, response){
-        throw new Error('Not implemented must be overriden');        
+        response.send('API endpoint not yet implemented');    
     }
 
-    async getByIdSupplied(id: Number, idName: String){        
+    async getByIdSupplied(id: Number, idName: String){
         
         let queryString = `
             SELECT *
