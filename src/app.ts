@@ -22,19 +22,19 @@ app.use('/login', loginController.router);
 
 //books
 const bookController = new BookController(dbc, passport);
-app.use('/books', bookController.router);
+app.use('/api/books', bookController.router);
 
 //authors
 const authorController = new AuthorController(dbc, passport);
-app.use('/authors', authorController.router);
+app.use('/api/authors', authorController.router);
 
 //users
 const userController = new UserController(dbc, passport);
-app.use('/users', userController.router);
+app.use('/api/users', userController.router);
 
 //loans
 const loanController = new LoanController(dbc, passport);
-app.use('/loans', loanController.router);
+app.use('/api/loans', loanController.router);
 
 //serve frontend directory
 app.use(express.static('frontend'));

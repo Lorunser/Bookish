@@ -9,13 +9,30 @@
   <body>
     <div id="nav-placeholder"></div>
     <div class="container jumbotron">
+      <div class="container row" id="bookList">
+        <!--placeholder-->
+      </div>
+
+      <table id="bookTable" class="display" width="100%">
+          <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Author(s)</th>
+                  <th>Num Copies</th>
+              </tr>
+          </thead>
+      </table>
+
       <div class="container row justify-content-md-center">
           <form action="javascript:void(0)" onsubmit="submitBookId();" id="bookForm" class="form-inline col-md-">
               <input class="form-control mr-sm-2" type="text" name="bookId" placeholder="Book Id">
               <button type="submit" class="btn btn-primary form-control">Submit</button>
           </form>
       </div>
+
       <br>
+
       <div id="bookResults" class="container row">
         <div class="col-md-6">
           <ul class="list-group">

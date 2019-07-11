@@ -20,6 +20,7 @@ export default abstract class BaseController{
 
         this.router.get('/', this.passport.authenticate('jwt'), this.getAll.bind(this));
         this.router.get('/:id', this.passport.authenticate('jwt'), this.getById.bind(this));
+        //this.router.get('/:id', this.getById.bind(this));
         this.router.post('/', this.passport.authenticate('jwt'), this.createNew.bind(this));
     }
 
@@ -32,7 +33,7 @@ export default abstract class BaseController{
         `;
 
         let jsonDbArray = await this.dbc.asyncAll(queryString);
-        let modelArray = jsonDbArray.map((jsonBook) => new BaseModel(jsonBook));
+        let modelArray = jsonDbArray.map((json) => new BaseModel(json));
 
         response.json(modelArray);
     }
