@@ -13,10 +13,14 @@ export default abstract class BaseController{
         this.tableName = tableName;
 
         //map routes
-        this.router.get('/', /*passport authentication */ this.getAll.bind(this));
+        this.router.get('/', /*passport */ this.getAll.bind(this));
         this.router.get('/:id', /*passport */ this.getById.bind(this));
+
+        this.router.post('/', /*passport */ this.createNew.bind(this));
     }
 
+    //#region GET requests
+    // '/'
     async getAll(request, response){
         let queryString: String = `
             SELECT *
@@ -29,12 +33,13 @@ export default abstract class BaseController{
         response.json(modelArray);
     }
 
+    // '/:id'
     async getById(request, response){
         response.send('API endpoint not yet implemented');    
     }
 
+    // helper method
     async getByIdSupplied(id: Number, idName: String){
-        
         let queryString = `
             SELECT *
             FROM ${this.tableName}
@@ -43,5 +48,29 @@ export default abstract class BaseController{
 
         let json = await this.dbc.asyncOneOrNone(queryString);
         return json;
+    }
+    //#endregion
+
+
+    //#region POST requests
+    // '/'
+    async createNew(request, response){
+        let jsonModel = request.params;
+
+        let columnNamesArray = jsonModel.keys;
+        let columnNamesCsv = columnNamesArray.join(',');
+
+        let valuesArray = [];
+
+        for(let key of columnNamesArray){
+            valuesArray.push(jsonModel[key]);
+        }
+
+        let valuesCsv = valuesArray.join(',');
+
+        let queryString = `
+            INSERT INTO LibraryUsers(${columnNamesCsv})
+            VALUES (${valuesCsv});
+        `;
     }
 }
