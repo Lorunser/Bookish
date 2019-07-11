@@ -69,6 +69,7 @@ function displayBookArray(jsonBookArray){
         "data": jsonBookArray,
         "columns" :[
             {"data" : "bookid"},
+            {"data" : "isbn"},
             {"data" : "title"},
             {"data" : "authornames"},
             {"data" : "numcopies"}
@@ -88,5 +89,7 @@ function getBookList(){
     getJson(url, displayBookArray);
 }
 
-getBookList();
+window .onload = () => {
+    getBookList();
+};
 
