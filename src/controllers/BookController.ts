@@ -44,26 +44,9 @@ export default class BookController{
 
         let jsonBook = await this.dbc.asyncOneOrNone(queryString);
         let book = new Book(jsonBook);
-        await this.populateAuthorsAsync(book);
+        await book.populateNavsAsync(this.dbc);
         console.log(book);
 
         response.json(book);
-    }
-
-    async populateAuthorsAsync(Book: Book){
-        let bookId = Book.bookid;
-        
-        let queryString = `
-            SELECT a.AuthorId, a.AuthorName
-            FROM Authors as a
-            JOIN BookAuthors as b
-            ON a.AuthorId = b.AuthorId
-            WHERE b.BookId = ${bookId};
-        `;
-
-        let jsonAuthorArray = await this.dbc.asyncAll(queryString);
-        let authorArray = jsonAuthorArray.map((jsonAuthor) => new Author(jsonAuthor));
-
-        Book.authors = authorArray;
     }
 }

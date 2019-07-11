@@ -1,5 +1,6 @@
 import BaseModel from './BaseModel';
 import Book from './Book';
+import Loan from './Loan';
 
 export default class Copy extends BaseModel{
     
@@ -9,6 +10,7 @@ export default class Copy extends BaseModel{
 
     //nav property
     book: Book;
+    loans: Array<Loan>
 
     constructor(jsonFromDb){
         super(jsonFromDb);
