@@ -1,23 +1,22 @@
 import DbConnection from "../db/DbConnection";
 import Book from "../models/Book";
 import { Router } from "express";
-import Author from "../models/Author";
+import BaseController from "./BaseController";
 
 
-export default class BookController{
+export default class BookController extends BaseController{
     dbc: DbConnection;
     router: Router;
 
     constructor(dbc: DbConnection){
-        this.dbc = dbc;
-        this.router = Router();
+        super(dbc);
 
         //map routes
-        this.router.get('/', /*passport authentication */ this.getAllBooks.bind(this));
-        this.router.get('/:bookid', /*passport */ this.getBook.bind(this));
+        this.router.get('/', /*passport authentication */ this.getAll.bind(this));
+        this.router.get('/:bookid', /*passport */ this.getById.bind(this));
     }
 
-    async getAllBooks(request, response){
+    async getAll(request, response){
         console.log('GET /books/');
 
         let queryString: String = `
@@ -32,7 +31,7 @@ export default class BookController{
         response.json(bookArray);
     }
 
-    async getBook(request, response){
+    async getById(request, response){
         let bookid = request.params.bookid;
         console.log('GET /books/' + bookid);
         
