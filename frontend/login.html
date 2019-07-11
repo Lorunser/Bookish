@@ -2,21 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Departure boards</title>
+    <title>Library Login</title>
     <script src='login.js'></script>
   </head>
   <body>
-    <form action="javascript:void(0)" onsubmit="loginSubmit(this)" method="post">
+    <form action="javascript:void(0)" id="loginForm" onsubmit="void(0);">
         <div>
             <label>Username:</label>
-            <input type="text" name="username"/>
+            <input type="text" id="username" name="username"/>
         </div>
         <div>
             <label>Password:</label>
-            <input type="password" name="password"/>
+            <input type="password"  id="password" name="password"/>
         </div>
         <div>
-            <input type="submit" value="Log In"/>
+            <input type="button" id="submitbutton" onclick="loginSubmit()" value="Log In"/>
         </div>
     </form>
   </body>
