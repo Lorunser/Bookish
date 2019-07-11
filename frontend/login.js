@@ -6,9 +6,19 @@ function loginSubmit(){
     let xhttp = new XMLHttpRequest();
     xhttp.open('POST', url, true);
     //xhttp.open('GET', 'http://localhost:3000/login', true);
-    xhttp.onload = function() {
-        //window.location.href = '/books';
-        console.log(xhttp.response);
+    
+    xhttp.onload = async function() { 
+        //console.log(xhttp.response);
+        let books = new XMLHttpRequest(); 
+        books.open('GET', 'http://localhost:3000/books', true);
+        books.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(xhttp.response).token);
+        books.onload = async function() {
+            localStorage.setItem("token", JSON.parse(xhttp.response).token)
+        }
+        books.send();
     }
+    //xhttp.setRequestHeader('Authorisation', 'Bearer ' + xhttp.response.token)
+    //console.log(xhttp)
+
     xhttp.send();
 }
