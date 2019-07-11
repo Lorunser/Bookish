@@ -7,7 +7,7 @@ export default class DbConnection{
     db: any;
 
     constructor(connectionString: String){
-        const defaultConnectionString = 'postgres://bookish:JoshLawrence1@intlawtra:5432/bookish'; 
+        const defaultConnectionString = 'postgres://bookish:JoshLawrence1@localhost:5432/bookish'; 
 
         if(connectionString === ""){
             connectionString = defaultConnectionString;

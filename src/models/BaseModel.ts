@@ -1,4 +1,5 @@
-export default class BaseModel{
+export default class BaseModel{    
+    
     constructor(jsonFromDb){
         for(let key in jsonFromDb){
             let value = jsonFromDb[key];
@@ -6,4 +7,7 @@ export default class BaseModel{
         }
     }
 
+    async populateNavsAsync(){
+        throw new Error('Not implemented must be overriden')
+    }
 }
