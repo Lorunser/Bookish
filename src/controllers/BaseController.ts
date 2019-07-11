@@ -1,5 +1,5 @@
 import DbConnection from "../db/DbConnection";
-import { Router } from "express";
+import { Router, Response } from "express";
 import BaseModel from '../models/BaseModel';
 
 export default abstract class BaseController{
@@ -21,7 +21,7 @@ export default abstract class BaseController{
 
     //#region GET requests
     // '/'
-    async getAll(request, response){
+    async getAll(request, response: Response){
         let queryString: String = `
             SELECT *
             FROM ${this.tableName};
@@ -34,7 +34,7 @@ export default abstract class BaseController{
     }
 
     // '/:id'
-    async getById(request, response){
+    async getById(request, response: Response){
         response.send('API endpoint not yet implemented');    
     }
 
@@ -54,23 +54,29 @@ export default abstract class BaseController{
 
     //#region POST requests
     // '/'
-    async createNew(request, response){
+    async createNew(request, response: Response){
         let jsonModel = request.params;
 
         let columnNamesArray = jsonModel.keys;
         let columnNamesCsv = columnNamesArray.join(',');
 
         let valuesArray = [];
-
         for(let key of columnNamesArray){
             valuesArray.push(jsonModel[key]);
         }
-
         let valuesCsv = valuesArray.join(',');
 
         let queryString = `
             INSERT INTO LibraryUsers(${columnNamesCsv})
             VALUES (${valuesCsv});
         `;
+
+        try{
+            await this.dbc.asyncNone(queryString);
+            response.sendStatus(201);
+        }
+        catch{
+            response.send('Failed to create new object');
+        }
     }
 }

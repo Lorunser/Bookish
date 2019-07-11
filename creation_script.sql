@@ -21,11 +21,11 @@ CREATE TABLE Authors (
 CREATE TABLE Copies (
 	CopyId SERIAL PRIMARY KEY,
 	BookId INT,
-	FOREIGN KEY (CopyId) REFERENCES Books(BookId)
+	FOREIGN KEY (BookId) REFERENCES Books(BookId)
 );
 
 CREATE TABLE Loans (
-	LoanId INT PRIMARY KEY, 
+	LoanId SERIAL PRIMARY KEY, 
 	CopyId INT,
 	UserId INT,
 	DateIssued DATE,
@@ -49,13 +49,16 @@ INSERT INTO Authors(AuthorName)
 VALUES 
 ('Anthony Horowitz'), 
 ('George Orwell'), 
-('Aldous Huxley');
+('Aldous Huxley'),
+('Jonathan Haidt'),
+('Greg Lukianoff');
 
 INSERT INTO Books(ISBN, Title)
 VALUES 
 ('9781471331435','1984'),
 ('9782013224635', 'StormBreaker'),
-('9782435647654', 'Brave New World');
+('9782435647654', 'Brave New World'),
+('9782653976928', 'The Coddling of the American Mind');
 
 INSERT INTO LibraryUsers(UserName, Password)
 VALUES
@@ -65,6 +68,23 @@ VALUES
 INSERT INTO BookAuthors(BookId, AuthorId)
 VALUES
 (1, 2),
-(1, 3);
+(2, 1),
+(3, 3),
+(4, 4),
+(4, 5);
+
+INSERT INTO Copies(BookId)
+VALUES
+(1),(1),(1),(2),(2),(3),(3),(3),(4),(4),(4);
+
+INSERT INTO Loans(CopyId, UserId)
+VALUES
+(1,1),
+(3,1),
+(5,1),
+(7,2),
+(10,2);
+
+
 
 

@@ -26,4 +26,9 @@ export default class DbConnection{
         let result = await this.db.oneOrNone(sqlQuery);
         return result;
     }
+
+    async asyncNone(sqlQuery: String){
+        let promise = await this.db.none(sqlQuery);
+        return promise;
+    }
 }
