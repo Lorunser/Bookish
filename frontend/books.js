@@ -34,31 +34,34 @@ function change_loc(postcode) {
     document.getElementById("gmap_canvas_frame").innerHTML = pre_text + postcode + post_text;
 }
 
-function submitBookId() {
+
+function getJson(url) {
     var xhttp = new XMLHttpRequest();
-    //var form     = this.form;
-    var postcode = document.forms.postcodeForm[0].value;
-    xhttp.open('GET', '/departureBoards/'+postcode, true);
-    xhttp.setRequestHeader('Content-Type', 'application/json');
-    
+
+    var token = localStorage.getItem('token');
+    xhttp.open('GET', url);
+    xhttp.setRequestHeader('Authorization', 'Bearer ' + token);
+
     xhttp.onload = function() {
         // Handle response here using e.g. xhttp.status, xhttp.response, xhttp.responseText
-        if(xhttp.status == "404"){
-            alert("Invalid postcode. Try Again!");
+        if(xhttp.status == 404){
+            alert("Not Found");
+        }
+        else if(xhttp.status == 400){
+            alert("Bad Request");
         }
 
-        var jsonArray = JSON.parse(xhttp.response);
-        var resultsText = createResultsHTML(jsonArray);
-        change_loc(postcode);
-        document.getElementById("results").innerHTML = resultsText;
+        var json = JSON.parse(xhttp.response);
+        console.log(json);
     }
     
     xhttp.send();
-
-    setTimeout(function(){
-        var postcode = document.forms.postcodeForm[0].value;
-        if (typeof postcode.length !== 'undefined') {
-            submitPostcode()
-        };
-     }, 20000);
 }
+
+function submitBookId() {
+    var bookId = document.forms.bookForm[0].value;
+    var url = '/books/' + bookId;
+    console.log(bookId);
+    getJson(url);
+}
+
