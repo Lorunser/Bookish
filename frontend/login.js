@@ -13,7 +13,7 @@ function loginSubmit(){
         books.open('GET', 'http://localhost:3000/books', true);
         books.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(xhttp.response).token);
         books.onload = async function() {
-            console.log(books.response);
+            localStorage.setItem("token", JSON.parse(xhttp.response).token)
         }
         books.send();
     }
