@@ -1,19 +1,24 @@
 import DbConnection from "../db/DbConnection";
 import { Router, Response } from "express";
 import BaseModel from '../models/BaseModel';
+import passport from "passport";
+
 
 export default abstract class BaseController{
     dbc: DbConnection;
     router: Router;
     tableName: String;
+    passport: any;
 
-    constructor(dbc: DbConnection, tableName: String){
+    constructor(dbc: DbConnection, tableName: String, passport: any){
         this.dbc = dbc;
         this.router = Router();
         this.tableName = tableName;
+        this.passport = passport;
 
         //map routes
-        this.router.get('/', /*passport */ this.getAll.bind(this));
+
+        this.router.get('/', this.passport.authenticate('jwt'), this.getAll.bind(this));
         this.router.get('/:id', /*passport */ this.getById.bind(this));
 
         this.router.post('/', /*passport */ this.createNew.bind(this));

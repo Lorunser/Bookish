@@ -18,10 +18,11 @@ const dbc = new DbConnection("");
 
 //login
 const loginController = new LoginController(dbc, passport);
-app.post('/login', passport.authenticate('local', { successRedirect: '/books', failureRedirect: '/failure'}));
+app.use('/login', loginController.router);
+console.log('using login')
 
 //books
-const bookController = new BookController(dbc);
+const bookController = new BookController(dbc, passport);
 app.use('/books', bookController.router);
 
 //authors

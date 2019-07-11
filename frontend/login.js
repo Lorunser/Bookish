@@ -5,10 +5,10 @@ function loginSubmit(){
     const url = 'http://localhost:3000/login?username=' + username + '&password=' + password;
     let xhttp = new XMLHttpRequest();
     xhttp.open('POST', url, true);
+    //xhttp.open('GET', 'http://localhost:3000/login', true);
     xhttp.onload = function() {
-        console.log('Got xhttp request')
+        //window.location.href = '/books';
+        console.log(xhttp.response);
     }
-    xhttp.send()
-
-    
+    xhttp.send();
 }

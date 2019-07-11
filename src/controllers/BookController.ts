@@ -5,8 +5,8 @@ import BaseController from "./BaseController";
 
 export default class BookController extends BaseController{
 
-    constructor(dbc: DbConnection){
-        super(dbc, "Books");
+    constructor(dbc: DbConnection, passport: any){
+        super(dbc, "Books", passport);
     }
 
     async getById(request, response){
