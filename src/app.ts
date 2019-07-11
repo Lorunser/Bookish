@@ -19,7 +19,6 @@ const dbc = new DbConnection("");
 //login
 const loginController = new LoginController(dbc, passport);
 app.use('/login', loginController.router);
-console.log('using login')
 
 //books
 const bookController = new BookController(dbc, passport);

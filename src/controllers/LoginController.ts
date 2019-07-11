@@ -1,7 +1,8 @@
 import DbConnection from '../db/DbConnection';
 import {Strategy, ExtractJwt } from 'passport-jwt';
 import jwt from 'jsonwebtoken';
-import { Router } from "express";
+import { Router, Response} from "express";
+import express from 'express';
 
 
 
@@ -12,12 +13,18 @@ export default class LoginController{
     constructor(dbc: DbConnection, passport){
         this.dbc = dbc;
         this.router = Router();
+
+        //get login
+        this.router.get('/', express.static('frontend/login.html'))
+
         //map routes
         this.router.post('/', /*passport authentication */ this.authenticate.bind(this));
+        
         let opts = {
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             secretOrKey: 'secret'
         } 
+
         passport.use(new Strategy(opts, function(jwt_payload, done){
             return verify(jwt_payload.username, done, dbc);
         }));
@@ -30,6 +37,7 @@ export default class LoginController{
             done(null, user);
         });
     }
+    
     async authenticate(request, response) {
         console.log('trying to authenticate');
         const username = request.query.username;
@@ -82,16 +90,4 @@ async function verify(username, done, dbc){
     } catch (err) {
         return done(err, false);
     }
-    // if(user === null){
-    //     return done(new Error(`Username (${username}) incorrect`), false); // no such account
-    // }
-
-    // else if(user.password === password){
-    //     console.log("Successfully logged in " + username);
-    //     return done(null, user); // correct password
-    // }
-
-    // else{
-    //     return done(new Error(`Password (${password}) incorrect`), false);
-    // }
 }
