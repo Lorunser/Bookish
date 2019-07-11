@@ -18,7 +18,7 @@ export default abstract class BaseController{
 
         //map routes
 
-        this.router.get('/', this.passport.authenticate('jwt', {successRedirect: '/', failureRedirect: '/login', failureFlash: true}), this.getAll.bind(this));
+        this.router.get('/', this.passport.authenticate('jwt'), this.getAll.bind(this));
         this.router.get('/:id', /*passport */ this.getById.bind(this));
 
         this.router.post('/', /*passport */ this.createNew.bind(this));
