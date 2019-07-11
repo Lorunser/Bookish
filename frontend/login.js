@@ -1,4 +1,5 @@
 function loginSubmit(){
+    localStorage.clear();
     document.getElementById("loginForm").submit();
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
