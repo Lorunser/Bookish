@@ -6,9 +6,11 @@ function loginSubmit(){
     let xhttp = new XMLHttpRequest();
     xhttp.open('POST', url, true);
     //xhttp.open('GET', 'http://localhost:3000/login', true);
-    xhttp.onload = function() {
-        //window.location.href = '/books';
+    xhttp.onload = function() { 
         console.log(xhttp.response);
     }
-    xhttp.send();
+    xhttp.setRequestHeader('Authorisation', 'Bearer ' + xhttp.response.token)
+    console.log(xhttp)
+
+    xhttp.send(xhttp.request);
 }

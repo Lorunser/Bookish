@@ -6,8 +6,8 @@ import {Response} from "express";
 
 export default class UserController extends BaseController{
 
-    constructor(dbc: DbConnection){
-        super(dbc, "LibraryUsers");
+    constructor(dbc: DbConnection, passport: any){
+        super(dbc, "LibraryUsers", passport);
     }
 
     async getById(request, response: Response){
