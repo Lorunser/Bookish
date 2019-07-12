@@ -14,6 +14,7 @@ function loginSubmit(){
         books.open('GET', 'http://localhost:3000/books', true);
         books.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(xhttp.response).token);
         books.onload = async function() {
+            if (localStorage.getItem("token")) {localStorage.removeItem("token")}
             localStorage.setItem("token", JSON.parse(xhttp.response).token)
         }
         books.send();

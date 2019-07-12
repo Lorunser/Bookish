@@ -23,8 +23,8 @@ function getJson(url) {
 
 function submitBookId() {
     var bookId = document.forms.bookForm[0].value;
-    //var url = '/books/' + bookId;
-    var url = '/books';
+    var url = '/books/' + bookId;
+    //git logsvar url = '/books';
     console.log(bookId);
     getJson(url);
 }
