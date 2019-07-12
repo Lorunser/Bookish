@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Authors</title>
+    <script src="authors.js"></script>
+    <link rel="import" href="layout.html">
+  </head>
+  <body>
+    <div id="nav-placeholder"></div>
+    <div class="container jumbotron">
+      <div class="container row" id="bookList">
+        <!--placeholder-->
+      </div>
+
+      <table id="authorTable" class="display" width="100%">
+          <thead>
+              <tr>
+                  <th>Author ID</th>
+                  <th>Author(s)</th>
+                  <th>Books Available</th>
+              </tr>
+          </thead>
+      </table>
+
+      <div class="container row justify-content-md-center">
+          <form action="javascript:void(0)" onsubmit="submitAuthorId();" id="authorForm" class="form-inline col-md-">
+              <input class="form-control mr-sm-2" type="text" name="authorId" placeholder="Author Id">
+              <button type="submit" class="btn btn-primary form-control">Submit</button>
+          </form>
+      </div>
+
+      <br>
+
+      <div id="authorResults" class="container row justify-content-md-center"> </div>
+    </div>
+    
+  </body>
+</html>

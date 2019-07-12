@@ -1,12 +1,9 @@
 import BaseModel from './BaseModel';
-import Book from './Book';
 import Copy from './Copy';
 import LibraryUser from './LibraryUser';
 import DbConnection from '../db/DbConnection';
-import UserController from '../controllers/UserController';
 
 export default class Loan extends BaseModel{
-    
     //fields
     loanid: Number;
     copyid: Number;
@@ -20,7 +17,7 @@ export default class Loan extends BaseModel{
     user: LibraryUser;
 
     constructor(jsonFromDb){
-        super(jsonFromDb);
+        super(jsonFromDb, 'loans', 'loanid');
     }
 
 

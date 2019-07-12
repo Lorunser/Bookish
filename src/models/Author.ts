@@ -3,7 +3,6 @@ import Book from './Book';
 import DbConnection from '../db/DbConnection';
 
 export default class Author extends BaseModel{
-    
     //fields
     authorid: Number;
     authorname: String;
@@ -12,7 +11,7 @@ export default class Author extends BaseModel{
     books: Array<Book>
 
     constructor(jsonFromDb){
-        super(jsonFromDb);
+        super(jsonFromDb, 'authors', 'authorid');
     }
 
     async populateNavsAsync(dbc: DbConnection){        

@@ -1,12 +1,17 @@
 import DbConnection from "../db/DbConnection";
 
 export default class BaseModel{    
-    
-    constructor(jsonFromDb){
+    tableName: String = 'NOT IMPLEMENTED';
+    keyName: String = 'NOT IMPLEMENTED';
+
+    constructor(jsonFromDb, tableName: String, keyName: String){
         for(let key in jsonFromDb){
             let value = jsonFromDb[key];
             this[key] = value;
         }
+
+        this.tableName = tableName;
+        this.keyName = keyName;
     }
 
     async populateNavsAsync(dbc: DbConnection){

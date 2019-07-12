@@ -1,25 +1,27 @@
 import DbConnection from "../db/DbConnection";
 import { Router, Response } from "express";
 import BaseModel from '../models/BaseModel';
-import passport from "passport";
 
 
-export default abstract class BaseController{
+export default abstract class BaseController<T extends BaseModel>{
     dbc: DbConnection;
     router: Router;
-    tableName: String;
     passport: any;
+    Model: new(json) => T;
+    modelInstance: T;
 
-    constructor(dbc: DbConnection, tableName: String, passport: any){
+    constructor(dbc: DbConnection, passport: any, Model: new(json) => T){
         this.dbc = dbc;
         this.router = Router();
-        this.tableName = tableName;
         this.passport = passport;
+        this.Model = Model;
+        this.modelInstance = new this.Model([]);
 
-        //map routes
+        //GET
         this.router.get('/', this.passport.authenticate('jwt'), this.getAll.bind(this));
         this.router.get('/:id', this.passport.authenticate('jwt'), this.getById.bind(this));
-        //this.router.get('/:id', this.getById.bind(this));
+        
+        //POST
         this.router.post('/', this.passport.authenticate('jwt'), this.createNew.bind(this));
     }
 
@@ -28,31 +30,36 @@ export default abstract class BaseController{
     async getAll(request, response: Response){
         let queryString: String = `
             SELECT *
-            FROM ${this.tableName};
+            FROM ${};
         `;
 
         let jsonDbArray = await this.dbc.asyncAll(queryString);
-        let modelArray = jsonDbArray.map((json) => new BaseModel(json));
+        let modelArray = jsonDbArray.map((json) => new this.Model(json));
+
+        for(let model of modelArray){
+            await model.populateNavsAsync(this.dbc);
+        }
 
         response.json(modelArray);
     }
 
     // '/:id'
     async getById(request, response: Response){
-        response.send('API endpoint not yet implemented');    
-    }
-
-    // helper method
-    async getByIdSupplied(id: Number, idName: String){
+        let id = request.params.id;
+        
         let queryString = `
             SELECT *
-            FROM ${this.tableName}
-            WHERE ${idName} = ${id}; 
+            FROM ${this.modelInstance.tableName}
+            WHERE ${this.modelInstance.keyName} = ${id}; 
         `;
 
         let json = await this.dbc.asyncOneOrNone(queryString);
-        return json;
+        let model = new this.Model(json);
+        await model.populateNavsAsync(this.dbc);
+
+        response.json(model);
     }
+
     //#endregion
 
 
@@ -71,7 +78,7 @@ export default abstract class BaseController{
         let valuesCsv = valuesArray.join(',');
 
         let queryString = `
-            INSERT INTO LibraryUsers(${columnNamesCsv})
+            INSERT INTO ${this.modelInstance.tableName}(${columnNamesCsv})
             VALUES (${valuesCsv});
         `;
 

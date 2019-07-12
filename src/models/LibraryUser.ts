@@ -13,7 +13,7 @@ export default class LibraryUser extends BaseModel{
     loans: Array<Loan>;
 
     constructor(jsonFromDb){
-        super(jsonFromDb);
+        super(jsonFromDb, 'libraryusers', 'userid');
     }
 
     async populateNavsAsync(dbc: DbConnection){
