@@ -30,7 +30,7 @@ export default abstract class BaseController<T extends BaseModel>{
     async getAll(request, response: Response){
         let queryString: String = `
             SELECT *
-            FROM ${};
+            FROM ${this.modelInstance.tableName};
         `;
 
         let jsonDbArray = await this.dbc.asyncAll(queryString);

@@ -14,7 +14,7 @@ function displayAuthorArray(jsonAuthorArray){
         "data": jsonAuthorArray,
         "columns" :[
             {"data" : "authorid"},
-            {"data" : "authorid"},
+            {"data" : "authorname"},
             {"data" : "numbooks"}
         ]
     });
@@ -27,7 +27,7 @@ function submitAuthorId() {
 }
 
 function getBookList(){
-    var url = '/api/books';
+    var url = '/api/authors';
     getJson(url, displayAuthorArray);
 }
 
