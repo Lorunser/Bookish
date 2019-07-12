@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Books</title>
+    <script src="books.js"></script>
+    <link rel="import" href="layout.html">
+  </head>
+  <body>
+    <div id="nav-placeholder"></div>
+    <div class="container jumbotron">
+      <div class="container row" id="bookList">
+        <!--placeholder-->
+      </div>
+
+      <table id="bookTable" class="display" width="100%">
+          <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>ISBN</th>
+                  <th>Title</th>
+                  <th>Author(s)</th>
+                  <th>Num Copies</th>
+              </tr>
+          </thead>
+      </table>
+
+      <div class="container row justify-content-md-center">
+          <form action="javascript:void(0)" onsubmit="submitBookId();" id="bookForm" class="form-inline col-md-">
+              <input class="form-control mr-sm-2" type="text" name="bookId" placeholder="Book Id">
+              <button type="submit" class="btn btn-primary form-control">Submit</button>
+          </form>
+      </div>
+
+      <br>
+
+      <div id="bookResults" class="container row justify-content-md-center"> </div>
+    </div>
+    
+  </body>
+</html>

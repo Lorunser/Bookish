@@ -1,5 +1,5 @@
 -- Database: bookish
-DROP TABLE Books, LibraryUsers, Authors, Loans, BookAuthors, Copies CASCADE;
+DROP TABLE Books, LibraryUsers, Authors, Loans, BookAuthors, Copies;
 
 CREATE TABLE Books (
 	BookId SERIAL PRIMARY KEY,

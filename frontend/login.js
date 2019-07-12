@@ -10,17 +10,21 @@ function loginSubmit(){
     
     xhttp.onload = async function() { 
         //console.log(xhttp.response);
-        let books = new XMLHttpRequest(); 
-        books.open('GET', 'http://localhost:3000/books', true);
-        books.setRequestHeader('Authorization', 'Bearer ' + JSON.parse(xhttp.response).token);
-        books.onload = async function() {
-            if (localStorage.getItem("token")) {localStorage.removeItem("token")}
-            localStorage.setItem("token", JSON.parse(xhttp.response).token)
+
+        if(localStorage.getItem('token')){
+            localStorage.removeItem('token');
         }
-        books.send();
+
+        if(xhttp.status == 200){
+            localStorage.setItem("token", JSON.parse(xhttp.response).token);
+            alert('Log in successful');
+            window.location.href = "/";
+        }
+
+        else{
+            alert('Invalid Username or Password');
+        }
     }
-    //xhttp.setRequestHeader('Authorisation', 'Bearer ' + xhttp.response.token)
-    //console.log(xhttp)
 
     xhttp.send();
 }
