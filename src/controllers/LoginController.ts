@@ -22,7 +22,7 @@ export default class LoginController{
         
         let opts = {
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey: 'secret'
+            secretOrKey: Math.random().toString(36).substring(7)
         } 
 
         passport.use(new Strategy(opts, function(jwt_payload, done){
