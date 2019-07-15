@@ -9,21 +9,24 @@ import express from 'express';
 export default class LoginController{
     router: Router;
     dbc: DbConnection;
+    secret: string
 
     constructor(dbc: DbConnection, passport){
         this.dbc = dbc;
         this.router = Router();
+        this.secret = (Math.random()+1).toString(36).substring(2, 7);
 
         //get login
         this.router.get('/', express.static('frontend/login.html'))
 
         //map routes
-        this.router.post('/', /*passport authentication */ this.authenticate.bind(this));
+        this.router.post('/', this.authenticate.bind(this));
         
         let opts = {
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey: (Math.random()+1).toString(36).substring(2, 7)
+            secretOrKey: this.secret
         } 
+        console.log(`Secret is: ${opts.secretOrKey}`)
 
         passport.use(new Strategy(opts, function(jwt_payload, done){
             return verify(jwt_payload.username, done, dbc);
@@ -51,13 +54,12 @@ export default class LoginController{
         try {
             const user = await this.dbc.asyncOneOrNone(queryString); 
             if (user && user.password === password) {
-                const secret = 'secret'; 
                 const payload = {
                     username: username,
                     password: password
                 }
                 const returnData = {
-                    token: jwt.sign(payload, secret),
+                    token: jwt.sign(payload, this.secret),
                     username: username
                 };
                 console.log('successfully authenticated')
@@ -83,6 +85,8 @@ async function verify(username, done, dbc){
     try { 
         let user = await dbc.asyncOneOrNone(queryString); 
         if (user) {
+            ////////jwt.verify(localStorage.getItem("token"), this.secret);
+            console.log('successfully authenticated');
             return done(null, user);
         } else {
             return done(null, false);

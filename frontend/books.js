@@ -13,8 +13,14 @@ function getJson(url, callback) {
         else if(xhttp.status == 400){
             alert("Bad Request");
         }
-
-        var json = JSON.parse(xhttp.response);
+        console.log(xhttp.response)
+        try {
+            var json = JSON.parse(xhttp.response);
+        } catch (err) {
+            window.location.href = '/login';
+            return 
+        }
+        
         callback(json);
     }
     
@@ -58,6 +64,13 @@ function displayBook(jsonBook){
 }
 
 function displayBookArray(jsonBookArray){
+    console.log(jsonBookArray)
+    if (jsonBookArray.length === 0) {
+        var html = '<h2>Please login using the login tab</h2>'
+        document.getElementById("bookResults").innerHTML = html;
+        return 
+
+    }
     var table = $('#bookTable');
 
     jsonBookArray.forEach((jsonBook) => {
@@ -89,7 +102,7 @@ function getBookList(){
     getJson(url, displayBookArray);
 }
 
-window .onload = () => {
+window.onload = () => {
     getBookList();
 };
 
