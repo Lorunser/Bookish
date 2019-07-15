@@ -21,7 +21,6 @@ function displayBook(jsonBook){
 }
 
 function displayBookArray(jsonBookArray){
-    console.log(jsonBookArray)
     if (jsonBookArray.length === 0) {
         var html = '<h2>Please login using the login tab</h2>'
         document.getElementById("bookResults").innerHTML = html;

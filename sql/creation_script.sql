@@ -3,7 +3,7 @@ DROP TABLE Books, LibraryUsers, Authors, Loans, BookAuthors, Copies;
 
 CREATE TABLE Books (
 	BookId SERIAL PRIMARY KEY,
-	ISBN VARCHAR UNIQUE,
+	ISBN VARCHAR,
 	Title VARCHAR NOT NULL
 );
 
