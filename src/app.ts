@@ -17,7 +17,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //db
-//const dbc = new DbConnection("");
+const dbc = new DbConnection("");
 const knex = Knex({
     client: 'pg',
     connection: 'postgres://bookish:JoshLawrence1@localhost:5432/bookish'

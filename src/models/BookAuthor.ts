@@ -1,17 +1,40 @@
+import { Model } from 'objection';
 import BaseModel from './BaseModel';
-import Book from './Book';
-import Author from './Author';
 
 export default class BookAuthor extends BaseModel{
-    //fields
-    bookid: Number;
-    authorid: Number;
+    
+    bookid: number;
+    authorid: number;
 
-    //nav properties
-    book: Book;
-    author: Author;
+    static get idColumn(){
+        return ['bookid', 'authorid'];
+    }
 
-    constructor(jsonFromDb){
-        super(jsonFromDb, 'bookauthors', 'COMPOSITE');
+    static get tableName() {
+        return 'bookauthors';
+    }
+    
+    static get relationMappings(){
+        const Book = require('./Book');
+        const Author = require('./Author');
+
+        return {
+            author: {
+                relation: Model.BelongsToOneRelation,
+                modelClass: Author,
+                join: {
+                    from: 'bookauthors.authorid',
+                    to: 'authors.id'
+                }
+            },
+            book: {
+                relation: Model.BelongsToOneRelation,
+                modelClass: Book,
+                join: {
+                    from: 'bookauthors.bookid',
+                    to: 'books.id'
+                }
+            }
+        };
     }
 }

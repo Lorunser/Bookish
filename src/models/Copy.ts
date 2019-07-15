@@ -1,35 +1,36 @@
+import { Model } from 'objection';
 import BaseModel from './BaseModel';
-import Book from './Book';
-import Loan from './Loan';
-import DbConnection from '../db/DbConnection';
 
 export default class Copy extends BaseModel{
-    //fields
-    copyid: Number;
-    bookid: Number;
+    
+    id: number;
+    bookid: number;
 
-    //nav property
-    book: Book;
-    loans: Array<Loan>
-
-    constructor(jsonFromDb){
-        super(jsonFromDb, 'copies', 'copyid');
+    static get tableName() {
+        return 'copies';
     }
+    
+    static get relationMappings(){
+        const Book = require('./Book');
+        const Loan = require('./Loan');
 
-    async populateNavsAsync(dbc: DbConnection){
-        throw new Error("not implemented populateNavs in Copy");
-    }
-
-    async _populateBook(dbc: DbConnection){
-        let queryString = `
-            SELECT *
-            FROM Books
-            WHERE bookid = ${this.bookid};
-        `;
-
-        let jsonBook = await dbc.asyncOneOrNone(queryString);
-        let book = new Book(jsonBook);
-
-        this.book = book;
+        return {
+            book: {
+                relation: Model.BelongsToOneRelation,
+                modelClass: Book,
+                join: {
+                    from: 'copies.bookid',
+                    to: 'books.id'
+                }
+            },
+            loans: {
+                relation: Model.HasManyRelation,
+                modelClass: Loan,
+                join: {
+                    from: 'copies.id',
+                    to: 'loans.copyid'
+                }
+            }
+        };
     }
 }
