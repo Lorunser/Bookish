@@ -49,7 +49,7 @@ function displayBookArray(jsonBookArray){
 function submitBook(form) {
     var json = jsonifyForm(form);
     var url = '/api/books';
-    postJson(url, json);
+    postJson(url, json, window.location.reload);
 }
 
 function getBookList(){

@@ -1,15 +1,3 @@
-function wrapLi(inner){
-    return '<li class="list-group-item">' + inner + '</li>';
-}
-
-function wrapUl(inner){
-    return '<ul class="list-group">' + inner + '</ul>'; 
-}
-
-function wrapCol(inner){
-    return '<div class="col-md-4">' + inner + '</div>'
-}
-
 function getJson(url, callback) {
     var xhttp = new XMLHttpRequest();
 
@@ -36,27 +24,35 @@ function getJson(url, callback) {
     xhttp.send();
 }
 
-function postJson(url, json){
+function postJson(url, json, callback){
     var xhttp = new XMLHttpRequest();
     
     var token = localStorage.getItem('token');
-    xhttp.open('POST', url);
+    xhttp.open('POST', url, true);
     xhttp.setRequestHeader('Authorization', 'Bearer ' + token);
+    xhttp.setRequestHeader('Content-Type', 'application/json');
 
     xhttp.onload = function() {
         // Handle response here using e.g. xhttp.status, xhttp.response, xhttp.responseText
         if(xhttp.status == 201){
-            alert("201: Successfully created");
+            callback();
         }
         else{
             alert(xhttp.responseText);
         }
     }
     
-    xhttp.send();
+    xhttp.send(json);
 }
 
 function jsonifyForm(form){
-    var json = JSON.stringify( $(form).serializeArray() );
-    return json;
+    //var data = JSON.stringify( $(form).serializeArray() );
+    var data = $(form).serializeArray();
+    var json = {};
+
+    data.forEach( (element) => {
+        json[element.name] = element.value;
+    });
+
+    return JSON.stringify(json);
 }

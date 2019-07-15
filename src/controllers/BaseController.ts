@@ -67,16 +67,17 @@ export default abstract class BaseController<T extends BaseModel>{
     //#region POST requests
     // '/'
     async createNew(request, response: Response){
-        let jsonModel = request.params;
+        console.log(request.body);
+        let jsonModel = request.body;
 
-        let columnNamesArray = jsonModel.keys;
+        let columnNamesArray = Object.keys(jsonModel);
         let columnNamesCsv = columnNamesArray.join(',');
 
         let valuesArray = [];
         for(let key of columnNamesArray){
             valuesArray.push(jsonModel[key]);
         }
-        let valuesCsv = valuesArray.join(',');
+        let valuesCsv = "'" + valuesArray.join(" ',' ") + "'";
 
         let queryString = `
             INSERT INTO ${this.modelInstance.tableName}(${columnNamesCsv})
@@ -84,6 +85,7 @@ export default abstract class BaseController<T extends BaseModel>{
         `;
 
         try{
+            console.log(queryString);
             await this.dbc.asyncNone(queryString);
             response.sendStatus(201);
         }

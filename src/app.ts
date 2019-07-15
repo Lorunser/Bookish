@@ -10,6 +10,7 @@ import LoanController from './controllers/LoanController';
 //express
 const app = express();
 const port = 3000;
+app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
