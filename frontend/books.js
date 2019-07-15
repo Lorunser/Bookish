@@ -25,22 +25,25 @@ function displayBookArray(jsonBookArray){
         var html = '<h2>Please login using the login tab</h2>'
         document.getElementById("bookResults").innerHTML = html;
         return 
-
     }
+
     var table = $('#bookTable');
 
     jsonBookArray.forEach((jsonBook) => {
         jsonBook.numcopies = jsonBook.copies.length;
-        jsonBook.authornames = jsonBook.authors.map((author) => author.authorname).join(' , ');
+        console.log(jsonBook)
+        if (jsonBook.authors) {
+            jsonBook.authors = jsonBook.authors.map((author) => author.name).join(' , ');
+        }
     });
 
     table.DataTable({
         "data": jsonBookArray,
         "columns" :[
-            {"data" : "bookid"},
+            {"data" : "id"},
             {"data" : "isbn"},
             {"data" : "title"},
-            {"data" : "authornames"},
+            {"data" : "authors"},
             {"data" : "numcopies"}
         ]
     });
@@ -60,4 +63,3 @@ function getBookList(){
 window.onload = () => {
     getBookList();
 };
-

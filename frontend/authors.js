@@ -13,8 +13,8 @@ function displayAuthorArray(jsonAuthorArray){
     table.DataTable({
         "data": jsonAuthorArray,
         "columns" :[
-            {"data" : "authorid"},
-            {"data" : "authorname"},
+            {"data" : "id"},
+            {"data" : "name"},
             {"data" : "numbooks"}
         ]
     });

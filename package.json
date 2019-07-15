@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run build && node ./dist/app.js",
-    "initdb": "npm run build && node ./dist/objectionmodels/initdb.js",
+    "initdb": "npm run build && node ./dist/models/initdb.js",
     "build": "npm run build-ts && npm run build-babel",
     "build-ts": "tsc",
     "build-babel": "babel ./built --out-dir dist/ --copy-files"

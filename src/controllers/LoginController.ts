@@ -1,4 +1,3 @@
-import DbConnection from '../db/DbConnection';
 import {Strategy, ExtractJwt } from 'passport-jwt';
 import jwt from 'jsonwebtoken';
 import { Router, Response} from "express";

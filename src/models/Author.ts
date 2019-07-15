@@ -1,5 +1,6 @@
 import { Model } from 'objection';
 import BaseModel from './BaseModel';
+import path from 'path';
 
 export default class Author extends BaseModel{
 
@@ -11,21 +12,18 @@ export default class Author extends BaseModel{
     }
     
     static get relationMappings(){
-        const Book = require('./Book');
-        const BookAuthor = require('./BookAuthor');
-
         return {
             books: {
                 relation: Model.ManyToManyRelation,
-                modelClass: Book,
+                modelClass: path.join(__dirname, 'Book'),
                 join: {
                     from: 'authors.id',
                     through: {
-                        modelClass: BookAuthor,
+                        //modelClass: BookAuthor,
                         from: 'bookauthors.authorid',
-                        to: 'books.id'
+                        to: 'bookauthors.bookid'
                     },
-                    to: 'books.authorid'
+                    to: 'books.id'
                 }
             }
         };

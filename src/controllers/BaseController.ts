@@ -19,13 +19,18 @@ export default abstract class BaseController<T extends BaseModel>{
         
         //POST
         this.router.post('/', this.passport.authenticate('jwt'), this.createNew.bind(this));
+
+        //without verification
+        this.router.get('/unprotected', this.getAll.bind(this));
+        this.router.get('/unprotected/:id', this.getById.bind(this));
     }
 
     //#region GET requests
     // '/'
-    async getAll(request, response: Response){
-        let models = await this.Model.query();
 
+    async getAll(request, response: Response): Promise<any>{
+        //console.log(this.Model);
+        let models = await this.Model.query();        
         let completeModels = [];
 
         for(let model of models){

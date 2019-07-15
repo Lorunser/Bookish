@@ -7,6 +7,8 @@ import Knex from 'knex';
 import Book from './Book';
 import Author from './Author';
 import BookAuthor from './BookAuthor';
+import User from './User';
+import Copy from './Copy';
 
 // Initialize knex.
 
@@ -67,7 +69,7 @@ async function createSchema() {
     });
 }
 
-async function main() {
+async function populate() {
     const book = await Book.query()
         .insert({
             isbn: '918237672342',
@@ -83,13 +85,22 @@ async function main() {
         .insert({
             bookid: book.id,
             authorid: author.id
-        })
+        });
 
-    console.log('created: ', bookauthor);
+    const user = await User.query()
+        .insert({
+            username: "Lawrence Tray",
+            password: "Lawrence"
+        });
+
+    const copy = await Copy.query()
+        .insert({
+            bookid: book.id
+        });
 }
 
 createSchema()
-    .then(() => main())
+    .then(() => populate())
     .then(() => knex.destroy())
     .catch(err => {
         console.error(err);
