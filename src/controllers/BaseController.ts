@@ -39,7 +39,8 @@ export default abstract class BaseController<T extends BaseModel>{
         for(let model of modelArray){
             await model.populateNavsAsync(this.dbc);
         }
-
+        
+        
         response.json(modelArray);
     }
 
