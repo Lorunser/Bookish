@@ -1,6 +1,7 @@
 import { Model } from 'objection';
+import BaseModel from './BaseModel';
 
-export default class BookAuthor extends Model{
+export default class BookAuthor extends BaseModel{
     
     bookid: number;
     authorid: number;

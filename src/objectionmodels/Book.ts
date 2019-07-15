@@ -1,6 +1,7 @@
 import { Model } from 'objection';
+import BaseModel from './BaseModel';
 
-export default class Book extends Model{
+export default class Book extends BaseModel{
     
     //props
     id: number;
@@ -31,19 +32,4 @@ export default class Book extends Model{
             }
         };
     }
-
-    static get JsonSchema() {
-        return {
-            type: 'object',
-            required: ['isbn', 'title'],
-
-            properties: {
-                id: {type: 'integer'},
-                isbn: {type: 'string'},
-                title: {type: 'string'}
-            }
-        }
-    }
 }
-
-module.exports.Book = Book;
