@@ -4,7 +4,7 @@ export default class BaseModel{
     tableName: String = 'NOT IMPLEMENTED';
     keyName: String = 'NOT IMPLEMENTED';
 
-    constructor(jsonFromDb, tableName: String, keyName: String){
+    constructor(jsonFromDb, tableName: String, keyName: String){        
         for(let key in jsonFromDb){
             let value = jsonFromDb[key];
             this[key] = value;
