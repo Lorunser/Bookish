@@ -30,4 +30,11 @@ export default class Author extends BaseModel{
             }
         };
     }
+
+    async populateNavsAsync(): Promise<Author>{
+        let completeAuthor = await Author.query().findById(this.id)
+            .eager('books');
+
+        return completeAuthor;
+    }
 }

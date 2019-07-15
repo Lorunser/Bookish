@@ -1,21 +1,17 @@
-import DbConnection from "../db/DbConnection";
 import { Router, Response } from "express";
 import BaseModel from '../models/BaseModel';
+import { ModelClass } from "objection";
 
 
 export default abstract class BaseController<T extends BaseModel>{
-    dbc: DbConnection;
     router: Router;
     passport: any;
-    Model: new(json) => T;
-    modelInstance: T;
+    Model: ModelClass<T>;
 
-    constructor(dbc: DbConnection, passport: any, Model: new(json) => T){
-        this.dbc = dbc;
+    constructor(passport: any, Model: ModelClass<T>){
         this.router = Router();
         this.passport = passport;
         this.Model = Model;
-        this.modelInstance = new this.Model([]);
 
         //GET
         this.router.get('/', this.passport.authenticate('jwt'), this.getAll.bind(this));
@@ -28,37 +24,24 @@ export default abstract class BaseController<T extends BaseModel>{
     //#region GET requests
     // '/'
     async getAll(request, response: Response){
-        let queryString: String = `
-            SELECT *
-            FROM ${this.modelInstance.tableName};
-        `;
+        let models = await this.Model.query();
 
-        let jsonDbArray = await this.dbc.asyncAll(queryString);
-        let modelArray = jsonDbArray.map((json) => new this.Model(json));
+        let completeModels = [];
 
-        for(let model of modelArray){
-            await model.populateNavsAsync(this.dbc);
+        for(let model of models){
+            completeModels.push(await model.populateNavsAsync());
         }
         
-        
-        response.json(modelArray);
+        response.json(completeModels);
     }
 
     // '/:id'
     async getById(request, response: Response){
         let id = request.params.id;
-        
-        let queryString = `
-            SELECT *
-            FROM ${this.modelInstance.tableName}
-            WHERE ${this.modelInstance.keyName} = ${id}; 
-        `;
+        let model = new this.Model({id: id});        
+        let completeModel = await model.populateNavsAsync();
 
-        let json = await this.dbc.asyncOneOrNone(queryString);
-        let model = new this.Model(json);
-        await model.populateNavsAsync(this.dbc);
-
-        response.json(model);
+        response.json(completeModel);
     }
 
     //#endregion
@@ -70,27 +53,8 @@ export default abstract class BaseController<T extends BaseModel>{
         console.log(request.body);
         let jsonModel = request.body;
 
-        let columnNamesArray = Object.keys(jsonModel);
-        let columnNamesCsv = columnNamesArray.join(',');
+        let model = new this.Model(jsonModel);
 
-        let valuesArray = [];
-        for(let key of columnNamesArray){
-            valuesArray.push(jsonModel[key]);
-        }
-        let valuesCsv = "'" + valuesArray.join(" ',' ") + "'";
-
-        let queryString = `
-            INSERT INTO ${this.modelInstance.tableName}(${columnNamesCsv})
-            VALUES (${valuesCsv});
-        `;
-
-        try{
-            console.log(queryString);
-            await this.dbc.asyncNone(queryString);
-            response.sendStatus(201);
-        }
-        catch{
-            response.send('Failed to create new object');
-        }
+        await this.Model.query().insert(model);
     }
 }

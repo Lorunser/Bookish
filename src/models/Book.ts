@@ -32,4 +32,13 @@ export default class Book extends BaseModel{
             }
         };
     }
+
+    async populateNavsAsync(): Promise<Book>{
+        let completeBook = await Book.query()
+            .findById(this.id)
+            .eager('authors')
+            .eager('copies');
+
+        return completeBook;
+    }
 }

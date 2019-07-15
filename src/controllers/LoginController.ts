@@ -3,16 +3,14 @@ import {Strategy, ExtractJwt } from 'passport-jwt';
 import jwt from 'jsonwebtoken';
 import { Router, Response} from "express";
 import express from 'express';
-
+import User from '../models/User';
 
 
 export default class LoginController{
     router: Router;
-    dbc: DbConnection;
-    secret: string
+    secret: string;
 
-    constructor(dbc: DbConnection, passport){
-        this.dbc = dbc;
+    constructor(passport){
         this.router = Router();
         this.secret = (Math.random()+1).toString(36).substring(2, 7);
 
@@ -29,7 +27,7 @@ export default class LoginController{
         console.log(`Secret is: ${opts.secretOrKey}`)
 
         passport.use(new Strategy(opts, function(jwt_payload, done){
-            return verify(jwt_payload.username, done, dbc);
+            return verify(jwt_payload.username, done);
         }));
 
         passport.serializeUser(function(user, done){
@@ -45,14 +43,9 @@ export default class LoginController{
         console.log('trying to authenticate');
         const username = request.query.username;
         const password = request.query.password;
-        const queryString = `
-        SELECT *
-        FROM LibraryUsers
-        WHERE UserName = '${username}';  
-        `;
-        console.log(username, password);
+        const user = await User.query().findOne({username: username})
+        
         try {
-            const user = await this.dbc.asyncOneOrNone(queryString); 
             if (user && user.password === password) {
                 const payload = {
                     username: username,
@@ -76,16 +69,11 @@ export default class LoginController{
     }
 }
 
-async function verify(username, done, dbc){
-    let queryString = `
-        SELECT *
-        FROM LibraryUsers
-        WHERE UserName = '${username}';  
-    `;
+async function verify(username, done){
+    const user = await User.query().findOne({username: username});
+
     try { 
-        let user = await dbc.asyncOneOrNone(queryString); 
         if (user) {
-            ////////jwt.verify(localStorage.getItem("token"), this.secret);
             console.log('successfully authenticated');
             return done(null, user);
         } else {

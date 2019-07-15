@@ -1,12 +1,9 @@
 import BaseController from "./BaseController";
-import DbConnection from "../db/DbConnection";
-import LibraryUser from "../models/LibraryUser"
-import {Response} from "express";
+import User from "../models/User"
 
+export default class UserController extends BaseController<User>{
 
-export default class UserController extends BaseController<LibraryUser>{
-
-    constructor(dbc: DbConnection, passport: any){
-        super(dbc, passport, LibraryUser);
+    constructor(passport: any){
+        super(passport, User);
     }
 }
