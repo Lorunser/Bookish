@@ -23,7 +23,7 @@ app.use('/login', loginController.router);
 //books
 const bookController = new BookController(dbc, passport);
 app.use('/api/books', bookController.router);
-app.use('/books', express.static('frontend/books.html'));
+app.use('/books', express.static('./frontend/books.html'));
 
 //authors
 const authorController = new AuthorController(dbc, passport);

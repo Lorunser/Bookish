@@ -4,19 +4,9 @@ import LibraryUser from "../models/LibraryUser"
 import {Response} from "express";
 
 
-export default class UserController extends BaseController{
+export default class UserController extends BaseController<LibraryUser>{
 
     constructor(dbc: DbConnection, passport: any){
-        super(dbc, "LibraryUsers", passport);
-    }
-
-    async getById(request, response: Response){
-        let id = request.params.id;
-
-        let jsonUser = await super.getByIdSupplied(id, "userid");
-        let user = new LibraryUser(jsonUser);
-        await user.populateNavsAsync(this.dbc);
-
-        response.json(user);
+        super(dbc, passport, LibraryUser);
     }
 }

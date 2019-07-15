@@ -4,7 +4,6 @@ import Loan from './Loan';
 import DbConnection from '../db/DbConnection';
 
 export default class Copy extends BaseModel{
-    
     //fields
     copyid: Number;
     bookid: Number;
@@ -14,7 +13,7 @@ export default class Copy extends BaseModel{
     loans: Array<Loan>
 
     constructor(jsonFromDb){
-        super(jsonFromDb);
+        super(jsonFromDb, 'copies', 'copyid');
     }
 
     async populateNavsAsync(dbc: DbConnection){

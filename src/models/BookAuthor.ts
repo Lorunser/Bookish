@@ -3,7 +3,6 @@ import Book from './Book';
 import Author from './Author';
 
 export default class BookAuthor extends BaseModel{
-    
     //fields
     bookid: Number;
     authorid: Number;
@@ -13,6 +12,6 @@ export default class BookAuthor extends BaseModel{
     author: Author;
 
     constructor(jsonFromDb){
-        super(jsonFromDb);
+        super(jsonFromDb, 'bookauthors', 'COMPOSITE');
     }
 }
