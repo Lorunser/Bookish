@@ -25,8 +25,11 @@ function getJson(url, callback) {
         else if(xhttp.status == 400){
             alert("Bad Request");
         }
-
-        var json = JSON.parse(xhttp.response);
+        try {
+            var json = JSON.parse(xhttp.response);
+        } catch (err) {
+            window.location.href = '/login';
+        }
         callback(json);
     }
     
