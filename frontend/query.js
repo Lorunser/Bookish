@@ -35,3 +35,28 @@ function getJson(url, callback) {
     
     xhttp.send();
 }
+
+function postJson(url, json){
+    var xhttp = new XMLHttpRequest();
+    
+    var token = localStorage.getItem('token');
+    xhttp.open('POST', url);
+    xhttp.setRequestHeader('Authorization', 'Bearer ' + token);
+
+    xhttp.onload = function() {
+        // Handle response here using e.g. xhttp.status, xhttp.response, xhttp.responseText
+        if(xhttp.status == 201){
+            alert("201: Successfully created");
+        }
+        else{
+            alert(xhttp.responseText);
+        }
+    }
+    
+    xhttp.send();
+}
+
+function jsonifyForm(form){
+    var json = JSON.stringify( $(form).serializeArray() );
+    return json;
+}

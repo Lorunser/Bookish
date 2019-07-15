@@ -26,9 +26,10 @@
       </table>
 
       <div class="container row justify-content-md-center">
-          <form action="javascript:void(0)" onsubmit="submitBookId();" id="bookForm" class="form-inline col-md-">
-              <input class="form-control mr-sm-2" type="text" name="bookId" placeholder="Book Id">
-              <button type="submit" class="btn btn-primary form-control">Submit</button>
+          <form action="javascript:void(0)" onsubmit="submitBook(this);" id="bookForm" class="form-inline">
+              <input class="form-control mr-2" type="text" name="title" placeholder="Book Title">
+              <input class="form-control mr-2" type="text" name="isbn" placeholder="ISBN">
+              <button type="submit" class="btn btn-primary form-control">New Book</button>
           </form>
       </div>
 

@@ -47,10 +47,10 @@ function displayBookArray(jsonBookArray){
     });
 }
 
-function submitBookId() {
-    var bookId = document.forms.bookForm[0].value;
-    var url = '/api/books/' + bookId;
-    getJson(url, displayBook);
+function submitBook(form) {
+    var json = jsonifyForm(form);
+    var url = '/api/books';
+    postJson(url, json);
 }
 
 function getBookList(){
