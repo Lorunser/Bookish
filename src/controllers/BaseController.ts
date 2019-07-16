@@ -31,12 +31,13 @@ export default abstract class BaseController<T extends BaseModel>{
     async getAll(request, response: Response): Promise<any>{
         //console.log(this.Model);
         let models = await this.Model.query();        
-        let completeModels = [];
+        let promisedModels = [];
 
         for(let model of models){
-            completeModels.push(await model.populateNavsAsync());
+            promisedModels.push(model.populateNavsAsync());
         }
-        
+
+        let completeModels = await Promise.all(promisedModels);
         response.json(completeModels);
     }
 

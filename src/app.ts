@@ -1,11 +1,16 @@
+//express and authentication
 import express from 'express';
-import DbConnection from './db/DbConnection';
-import BookController from './controllers/BookController';
 import passport from 'passport';
+import {connectionstring} from './web.config';
+
+//Controllers
+import BookController from './controllers/BookController';
 import LoginController from './controllers/LoginController';
 import AuthorController from './controllers/AuthorController';
 import UserController from './controllers/UserController';
 import LoanController from './controllers/LoanController';
+
+//DB stuff
 import { Model } from 'objection';
 import Knex from 'knex';
 
@@ -19,7 +24,7 @@ app.use(passport.session());
 //db
 const knex = Knex({
     client: 'pg',
-    connection: 'postgres://bookish:JoshLawrence1@localhost:5432/bookish'
+    connection: connectionstring
 });
 
 // Give the knex instance to objection.

@@ -2,6 +2,7 @@
 .vscode/
 built/
 dist/
+web.config*
 
 # Logs
 logs
