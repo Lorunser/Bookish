@@ -56,11 +56,15 @@ export default abstract class BaseController<T extends BaseModel>{
     //#region POST requests
     // '/'
     async createNew(request, response: Response){
-        console.log(request.body);
         let jsonModel = request.body;
+        let model = this.Model.fromJson(jsonModel);
+        let insertedModel = await this.Model.query().insert(model);
 
-        let model = new this.Model(jsonModel);
-
-        await this.Model.query().insert(model);
+        if(insertedModel){
+            response.status(201).send(insertedModel);
+        }
+        else{
+            response.status(400);
+        }
     }
 }

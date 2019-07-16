@@ -32,13 +32,16 @@ function postJson(url, json, callback){
     xhttp.setRequestHeader('Authorization', 'Bearer ' + token);
     xhttp.setRequestHeader('Content-Type', 'application/json');
 
-    xhttp.onload = function() {
+    xhttp.onreadystatechange = function() {
         // Handle response here using e.g. xhttp.status, xhttp.response, xhttp.responseText
-        if(xhttp.status == 201){
-            callback();
-        }
-        else{
-            alert(xhttp.responseText);
+        if(xhttp.readyState === xhttp.DONE){
+            if(xhttp.status == 201){
+                alert("Success");
+                document.location.reload();
+            }
+            else{
+                alert(xhttp.responseText);
+            }
         }
     }
     

@@ -31,20 +31,24 @@ function displayBookArray(jsonBookArray){
 
     jsonBookArray.forEach((jsonBook) => {
         jsonBook.numcopies = jsonBook.copies.length;
-        console.log(jsonBook)
+
         if (jsonBook.authors) {
             jsonBook.authors = jsonBook.authors.map((author) => author.name).join(' , ');
+        }
+
+        else {
+            jsonBook.authors = 'No Authors Added';
         }
     });
 
     table.DataTable({
-        "data": jsonBookArray,
-        "columns" :[
-            {"data" : "id"},
-            {"data" : "isbn"},
-            {"data" : "title"},
-            {"data" : "authors"},
-            {"data" : "numcopies"}
+        data: jsonBookArray,
+        columns: [
+            {data: "isbn"},
+            {data: "title"},
+            {data: "authors"},
+            {data: "numcopies"}
+            //{"data" : `<button class="btn" href="/loan">Loan</button>`}
         ]
     });
 }
